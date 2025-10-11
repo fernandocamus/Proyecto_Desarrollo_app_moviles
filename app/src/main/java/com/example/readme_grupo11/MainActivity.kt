@@ -23,7 +23,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    saludo()
+                    //codigo?
+                    val windowSizeClass = obtenerWindowSizeClass()
+                    MainScreen(windowSizeClass)
+
                 }
             }
         }
