@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.readme_grupo11.ui.screens.HomeScreen
 import com.example.readme_grupo11.ui.screens.RegistroScreen
 import com.example.readme_grupo11.ui.screens.LoginScreen
+import com.example.readme_grupo11.ui.screens.RecuperacionScreen
 
 // Funcion principal para la navegacion en la aplicacion
 @Composable
@@ -63,6 +64,16 @@ fun AppNavigation() {
                             inclusive = true
                         }
                     }
+                }
+            )
+        }
+
+        // Pantalla de recuperacion de contraseña
+        composable(route = AppRoutes.Recuperacion.route) {
+            RecuperacionScreen(
+                // Volver hacia el login
+                onNavigateBack = {
+                    navController.popBackStack()
                 }
             )
         }
