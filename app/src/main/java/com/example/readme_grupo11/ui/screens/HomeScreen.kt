@@ -13,11 +13,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+// Pantalla principal o Home de la aplicacion
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onNavigateToLogin: () -> Unit
 ) {
+    //Estado para controlar el menu desplegable
     var showMenu by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -25,13 +27,17 @@ fun HomeScreen(
             TopAppBar(
                 title = { Text("ZONALIBROS") },
                 actions = {
+                    // Boton para mostrar o esconder el menu
                     IconButton(onClick = { showMenu = !showMenu }) {
                         Icon(Icons.Default.Menu, contentDescription = "Menú")
                     }
+
+                    // Menu desplegable
                     DropdownMenu(
                         expanded = showMenu,
                         onDismissRequest = { showMenu = false }
                     ) {
+                        //Opcion: Mi perfil (no funcional, simplemente visual)
                         DropdownMenuItem(
                             text = { Text("Mi Perfil") },
                             onClick = { showMenu = false },
@@ -40,10 +46,13 @@ fun HomeScreen(
                             }
                         )
                         HorizontalDivider()
+
+                        //Opcion: Cerrar sesion
                         DropdownMenuItem(
                             text = { Text("Cerrar Sesión") },
                             onClick = {
                                 showMenu = false
+                                //Cierra sesion y re dirige al login
                                 onNavigateToLogin()
                             },
                             leadingIcon = {
@@ -52,6 +61,7 @@ fun HomeScreen(
                         )
                     }
                 },
+                // Colores para el topappbar
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -59,7 +69,9 @@ fun HomeScreen(
                 )
             )
         },
+        // Barra de navegacion inferior (solo visual, sin funcionamiento real)
         bottomBar = {
+            // Opcion: Inicio
             NavigationBar {
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Home, contentDescription = null) },
@@ -67,12 +79,14 @@ fun HomeScreen(
                     selected = true,
                     onClick = { }
                 )
+                // Opcion: Buscar
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Search, contentDescription = null) },
                     label = { Text("Buscar") },
                     selected = false,
                     onClick = { }
                 )
+                // Opcion: Carrito
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.ShoppingCart, contentDescription = null) },
                     label = { Text("Carrito") },
@@ -82,13 +96,16 @@ fun HomeScreen(
             }
         }
     ) { padding ->
+        // Contenido
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
+                // Scroll vertical
                 .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
+            //Card de bienvenida
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -99,6 +116,7 @@ fun HomeScreen(
                     modifier = Modifier.padding(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    // Icono de exito
                     Icon(
                         imageVector = Icons.Default.CheckCircle,
                         contentDescription = null,
@@ -106,6 +124,7 @@ fun HomeScreen(
                         tint = MaterialTheme.colorScheme.primary
                     )
                     Spacer(modifier = Modifier.height(16.dp))
+                    // Mensaje de bienvenida
                     Text(
                         text = "¡Bienvenido a ZONALIBROS!",
                         style = MaterialTheme.typography.bodyLarge,
@@ -123,6 +142,7 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            // Titulo de la seccion de categorias destacadas
             Text(
                 text = "Categorías Destacadas",
                 style = MaterialTheme.typography.titleLarge,
@@ -131,6 +151,7 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Lista de las categorias con sus respectivos iconos
             val categorias = listOf(
                 "Ficción" to Icons.Default.AutoStories,
                 "No Ficción" to Icons.Default.MenuBook,
@@ -140,12 +161,14 @@ fun HomeScreen(
                 "Historia" to Icons.Default.HistoryEdu
             )
 
+            // Division de categorias en filas de dos elementos cada una
             categorias.chunked(2).forEach { fila ->
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     fila.forEach { (nombre, icono) ->
+                        //La card es clickeable (sin funcionalidad real)
                         Card(
                             modifier = Modifier.weight(1f),
                             onClick = { }
@@ -156,6 +179,7 @@ fun HomeScreen(
                                     .padding(16.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
+                                // Icono de la categoria
                                 Icon(
                                     imageVector = icono,
                                     contentDescription = null,
@@ -163,6 +187,7 @@ fun HomeScreen(
                                     tint = MaterialTheme.colorScheme.primary
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
+                                // Nombre de la categoria
                                 Text(
                                     text = nombre,
                                     style = MaterialTheme.typography.titleMedium,
@@ -178,6 +203,7 @@ fun HomeScreen(
     }
 }
 
+// Preview de HomeScreen para ver el diseño actual
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenDarkPreview() {

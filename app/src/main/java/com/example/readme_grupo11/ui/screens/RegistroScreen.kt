@@ -21,6 +21,7 @@ import com.example.readme_grupo11.model.GeneroLiterario
 import com.example.readme_grupo11.viewmodel.RegistroViewModel
 import androidx.compose.ui.tooling.preview.Preview
 
+// Pantalla de registro para crear nuevos usuarios
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegistroScreen(
@@ -28,10 +29,12 @@ fun RegistroScreen(
     onNavigateToLogin: () -> Unit,
     viewModel: RegistroViewModel = viewModel()
 ) {
+    // ver los estados del RegistroViewModel
     val uiState by viewModel.uiState.collectAsState()
     val errores by viewModel.errores.collectAsState()
     val registroExitoso by viewModel.registroExitoso.collectAsState()
 
+    // Estado para ver o esconder las contraseñas
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
 
@@ -40,6 +43,7 @@ fun RegistroScreen(
             TopAppBar(
                 title = { Text("Crear Cuenta") },
                 navigationIcon = {
+                    //Boton para volver atras
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
                     }
@@ -57,12 +61,14 @@ fun RegistroScreen(
                 .fillMaxSize()
                 .padding(padding)
         ) {
+            // Columna con scroll vertical para el formulario
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
                     .padding(24.dp)
             ) {
+                //Titulo del formulario
                 Text(
                     text = "Registro de Usuario",
                     style = MaterialTheme.typography.headlineMedium,
@@ -71,6 +77,7 @@ fun RegistroScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
+                // Instrucciones
                 Text(
                     text = "Completa todos los campos para crear tu cuenta",
                     style = MaterialTheme.typography.bodyMedium,
@@ -79,6 +86,7 @@ fun RegistroScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
+                // Campo: Nombre completo
                 OutlinedTextField(
                     value = uiState.nombreCompleto,
                     onValueChange = { viewModel.actualizarNombre(it) },
@@ -87,6 +95,7 @@ fun RegistroScreen(
                     leadingIcon = {
                         Icon(Icons.Default.Person, contentDescription = null)
                     },
+                    // Si hay errores, mostrarlos
                     isError = errores.nombreError != null,
                     supportingText = {
                         if (errores.nombreError != null) {
@@ -98,6 +107,7 @@ fun RegistroScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                //Campo: correo electronico
                 OutlinedTextField(
                     value = uiState.correo,
                     onValueChange = { viewModel.actualizarCorreo(it) },
@@ -111,10 +121,12 @@ fun RegistroScreen(
                         if (errores.correoError != null) {
                             Text(errores.correoError!!)
                         } else {
+                            // Especificar el tipo de correo (cuando no hay error)
                             Text("Solo correos @duoc.cl")
                         }
                     },
                     keyboardOptions = KeyboardOptions(
+                        //Teclado para email
                         keyboardType = KeyboardType.Email
                     ),
                     modifier = Modifier.fillMaxWidth(),
@@ -122,6 +134,7 @@ fun RegistroScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                //Campo: contraseña
                 OutlinedTextField(
                     value = uiState.contrasena,
                     onValueChange = { viewModel.actualizarContrasena(it) },
@@ -130,6 +143,7 @@ fun RegistroScreen(
                         Icon(Icons.Default.Lock, contentDescription = null)
                     },
                     trailingIcon = {
+                        // Boton para mostrar o esconder la contraseña
                         IconButton(onClick = { passwordVisible = !passwordVisible }) {
                             Icon(
                                 imageVector = if (passwordVisible)
@@ -143,6 +157,7 @@ fun RegistroScreen(
                             )
                         }
                     },
+                    // Esconder el texto como puntos
                     visualTransformation = if (passwordVisible)
                         VisualTransformation.None
                     else
@@ -152,6 +167,7 @@ fun RegistroScreen(
                         if (errores.contrasenaError != null) {
                             Text(errores.contrasenaError!!)
                         } else {
+                            // Requisitos de la contraseña
                             Text("Mín. 10 caracteres, mayúscula, minúscula, número y símbolo (@#$%)")
                         }
                     },
@@ -163,6 +179,7 @@ fun RegistroScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // Campo: confirmar contraseña
                 OutlinedTextField(
                     value = uiState.confirmarContrasena,
                     onValueChange = { viewModel.actualizarConfirmarContrasena(it) },
@@ -202,6 +219,7 @@ fun RegistroScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // Campo: telefono (es opcional)
                 OutlinedTextField(
                     value = uiState.telefono,
                     onValueChange = { viewModel.actualizarTelefono(it) },
@@ -216,6 +234,7 @@ fun RegistroScreen(
                             Text(errores.telefonoError!!)
                         }
                     },
+                    // Tipo de teclado numerico para el telefono
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Phone
                     ),
@@ -232,6 +251,8 @@ fun RegistroScreen(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
+                //Campo generos favoritos
+                //Mostrar error de generos
                 if (errores.generosError != null) {
                     Text(
                         text = errores.generosError!!,
@@ -248,6 +269,7 @@ fun RegistroScreen(
                             .padding(vertical = 4.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+                        // Lista para cada genero literario
                         Checkbox(
                             checked = uiState.generosFavoritos.contains(genero),
                             onCheckedChange = { viewModel.toggleGenero(genero) },
@@ -264,8 +286,10 @@ fun RegistroScreen(
 
                 Spacer(modifier = Modifier.height(32.dp))
 
+                // Boton para crear cuenta
                 Button(
                     onClick = {
+                        // Cambiar ya que debe dirigir al login (aun no esta creado)
                         viewModel.registroExitoso
                     },
                     modifier = Modifier
@@ -287,6 +311,7 @@ fun RegistroScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // Card para cuando el registro fue exitoso
                 AnimatedVisibility(
                     visible = registroExitoso,
                     enter = fadeIn() + expandVertically(),
@@ -319,6 +344,7 @@ fun RegistroScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // Botón para volver al Login si el usuario tiene cuenta
                 TextButton(
                     onClick = onNavigateBack,
                     modifier = Modifier.fillMaxWidth(),
@@ -332,6 +358,7 @@ fun RegistroScreen(
     }
 }
 
+// Preview de la pantalla de registro
 @Preview(showBackground = true)
 @Composable
 fun RegistroScreenPreview() {
