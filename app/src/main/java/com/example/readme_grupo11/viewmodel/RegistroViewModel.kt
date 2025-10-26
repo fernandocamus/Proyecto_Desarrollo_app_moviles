@@ -167,6 +167,26 @@ class RegistroViewModel : ViewModel() {
                 erroresActuales.generosError == null
     }
 
+    fun registrarUsuario(onSuccess: () -> Unit) {
+        if (validarFormulario()) {
+            viewModelScope.launch {
+
+                val state = _uiState.value
+                LoginViewModel.usuariosGuardados[state.correo] = state.contrasena
+
+                Log.d("ZONALIBROS", "✅ Usuario registrado exitosamente:")
+                Log.d("ZONALIBROS", "   Nombre: ${state.nombreCompleto}")
+                Log.d("ZONALIBROS", "   Email: ${state.correo}")
+                Log.d("ZONALIBROS", "   Pass: ${state.contrasena}")
+
+                LoginViewModel.mostrarUsuarios()
+
+                _registroExitoso.value = true
+                onSuccess()
+            }
+        }
+    }
+
     // Resetear el estado de registro exitoso, para que cuando se registre un nuevo usuario popee de nuevo
     fun resetRegistroExitoso() {
         _registroExitoso.value = false

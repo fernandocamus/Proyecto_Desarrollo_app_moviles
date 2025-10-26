@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.readme_grupo11.ui.screens.HomeScreen
 import com.example.readme_grupo11.ui.screens.RegistroScreen
+import com.example.readme_grupo11.ui.screens.LoginScreen
 
 // Funcion principal para la navegacion en la aplicacion
 @Composable
@@ -19,6 +20,25 @@ fun AppNavigation() {
         navController = navController,
         startDestination = AppRoutes.Login.route
     ) {
+        // Pantalla de inicio
+        composable(route = AppRoutes.Login.route) {
+            LoginScreen(
+                onNavigateToRegistro = {
+                    navController.navigate(AppRoutes.Registro.route)
+                },
+                onNavigateToRecuperacion = {
+                    navController.navigate(AppRoutes.Recuperacion.route)
+                },
+                onNavigateToHome = {
+                    navController.navigate(AppRoutes.Home.route) {
+                        popUpTo(AppRoutes.Login.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
+        }
+
         // Pantalla de Registro
         composable(route = AppRoutes.Registro.route) {
             RegistroScreen(

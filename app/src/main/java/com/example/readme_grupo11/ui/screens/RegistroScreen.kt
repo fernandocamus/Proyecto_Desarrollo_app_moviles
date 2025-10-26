@@ -1,6 +1,5 @@
 package com.example.readme_grupo11.ui.screens
 
-import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -91,7 +90,7 @@ fun RegistroScreen(
                     value = uiState.nombreCompleto,
                     onValueChange = { viewModel.actualizarNombre(it) },
                     label = { Text("Nombre Completo *") },
-                    placeholder = { Text("Juan Pérez González") },
+                    placeholder = { Text("Fernando Pino") },
                     leadingIcon = {
                         Icon(Icons.Default.Person, contentDescription = null)
                     },
@@ -290,7 +289,7 @@ fun RegistroScreen(
                 Button(
                     onClick = {
                         // Cambiar ya que debe dirigir al login (aun no esta creado)
-                        viewModel.registroExitoso
+                        viewModel.registrarUsuario(onNavigateToLogin)
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -311,12 +310,8 @@ fun RegistroScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Card para cuando el registro fue exitoso
-                AnimatedVisibility(
-                    visible = registroExitoso,
-                    enter = fadeIn() + expandVertically(),
-                    exit = fadeOut() + shrinkVertically()
-                ) {
+                // Mostrar mensaje de confirmacion cuando el usuario se registre de manera correcta
+                if (registroExitoso) {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         colors = CardDefaults.cardColors(
@@ -340,9 +335,8 @@ fun RegistroScreen(
                             )
                         }
                     }
-                }
-
                 Spacer(modifier = Modifier.height(16.dp))
+                }
 
                 // Botón para volver al Login si el usuario tiene cuenta
                 TextButton(
