@@ -19,18 +19,26 @@ import androidx.compose.ui.graphics.Color
 val CafePri = Color(0xFF4E342E)
 val CafeSec = Color(0xFFBCAA99)
 val CafeTer = Color(0xFF5D4037)
+val CafeClaro = Color(0xFFBCAA99)
+val Blanco = Color(0xFFFFFFFF)
 
 
 private val DarkColorScheme = darkColorScheme(
     primary = CafePri,
     secondary = CafeSec,
-    tertiary = CafeTer
+    tertiary = CafeTer,
+
+    primaryContainer = CafeClaro,
+    onPrimaryContainer = Blanco
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = CafePri,
     secondary = CafeSec,
-    tertiary = CafeTer
+    tertiary = CafeTer,
+
+    primaryContainer = CafeClaro,
+    onPrimaryContainer = Blanco
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

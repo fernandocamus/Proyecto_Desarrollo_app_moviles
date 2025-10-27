@@ -331,7 +331,7 @@ fun RegistroScreen(
                             Text(
                                 text = "¡Registro exitoso! Redirigiendo...",
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                                color = MaterialTheme.colorScheme.primary
                             )
                         }
                     }

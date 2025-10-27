@@ -172,14 +172,14 @@ fun RecuperacionScreen(
                                 text = "¡Correo Enviado!",
                                 style = MaterialTheme.typography.titleLarge,
                                 fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                                color = MaterialTheme.colorScheme.primary
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             // Instrucciones cuando el correo ya fue enviado
                             Text(
                                 text = "Revisa tu bandeja de entrada. Te hemos enviado las instrucciones para recuperar tu contraseña.",
                                 style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                                color = MaterialTheme.colorScheme.primary,
                                 textAlign = TextAlign.Center
                             )
                         }
