@@ -14,17 +14,23 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import androidx.compose.ui.graphics.Color
+
+val CafePri = Color(0xFF4E342E)
+val CafeSec = Color(0xFFBCAA99)
+val CafeTer = Color(0xFF5D4037)
+
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = CafePri,
+    secondary = CafeSec,
+    tertiary = CafeTer
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = CafePri,
+    secondary = CafeSec,
+    tertiary = CafeTer
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.readme_grupo11.navigation.AppNavigation
+import com.example.readme_grupo11.ui.theme.README_Grupo11Theme
 
 // MainActivity de la aplicacion
 class MainActivity : ComponentActivity() {
@@ -23,7 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             // Theme utilizado
-            MaterialTheme {
+            README_Grupo11Theme(dynamicColor = false)  {
 
                 // Contenedor de color de fondo
                 Surface(
