@@ -1,9 +1,12 @@
 package com.example.readme_grupo11.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.readme_grupo11.ui.screens.CameraScreen
 import com.example.readme_grupo11.ui.screens.HomeScreen
 import com.example.readme_grupo11.ui.screens.RegistroScreen
 import com.example.readme_grupo11.ui.screens.LoginScreen
@@ -42,6 +45,8 @@ fun AppNavigation() {
 
         // Pantalla de Registro
         composable(route = AppRoutes.Registro.route) {
+            val result = navController.currentBackStackEntry?.savedStateHandle?.get<String>("photo_uri")
+
             RegistroScreen(
                 // Navegacion hacia atras
                 onNavigateBack = {
@@ -50,7 +55,11 @@ fun AppNavigation() {
                 // Navegacion hacia login
                 onNavigateToLogin = {
                     navController.popBackStack()
-                }
+                },
+                onNavigateToCamera = {
+                    navController.navigate(AppRoutes.Camera.route)
+                },
+                photoUri = result
             )
         }
 
@@ -76,6 +85,13 @@ fun AppNavigation() {
                     navController.popBackStack()
                 }
             )
+        }
+
+        composable(AppRoutes.Camera.route) {
+            CameraScreen(onNavigateBack = { uri ->
+                navController.previousBackStackEntry?.savedStateHandle?.set("photo_uri", uri.toString())
+                navController.popBackStack()
+            })
         }
     }
 }

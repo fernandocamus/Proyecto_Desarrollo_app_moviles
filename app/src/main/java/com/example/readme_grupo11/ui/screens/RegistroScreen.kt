@@ -1,7 +1,12 @@
 package com.example.readme_grupo11.ui.screens
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -10,12 +15,16 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.rememberAsyncImagePainter
 import com.example.readme_grupo11.model.GeneroLiterario
 import com.example.readme_grupo11.viewmodel.RegistroViewModel
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,6 +35,8 @@ import androidx.compose.ui.tooling.preview.Preview
 fun RegistroScreen(
     onNavigateBack: () -> Unit,
     onNavigateToLogin: () -> Unit,
+    onNavigateToCamera: () -> Unit,
+    photoUri: String?,
     viewModel: RegistroViewModel = viewModel()
 ) {
     // ver los estados del RegistroViewModel
@@ -33,9 +44,23 @@ fun RegistroScreen(
     val errores by viewModel.errores.collectAsState()
     val registroExitoso by viewModel.registroExitoso.collectAsState()
 
+    LaunchedEffect(photoUri) {
+        photoUri?.let {
+            viewModel.actualizarFotoPerfilUri(it.toUri())
+        }
+    }
+
     // Estado para ver o esconder las contraseñas
     var passwordVisible by remember { mutableStateOf(false) }
     var confirmPasswordVisible by remember { mutableStateOf(false) }
+
+    // Launcher para seleccionar imagen de la galería
+    val imagePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri: Uri? ->
+            viewModel.actualizarFotoPerfilUri(uri)
+        }
+    )
 
     Scaffold(
         topBar = {
@@ -84,6 +109,61 @@ fun RegistroScreen(
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
+
+                // Sección para la foto de perfil
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    // Mostrar la imagen de perfil si está disponible
+                    if (uiState.fotoPerfilUri != null) {
+                        Image(
+                            painter = rememberAsyncImagePainter(uiState.fotoPerfilUri),
+                            contentDescription = "Foto de perfil",
+                            modifier = Modifier
+                                .size(120.dp)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop
+                        )
+                    } else {
+                        // Icono si no hay foto
+                        Icon(
+                            imageVector = Icons.Default.AccountCircle,
+                            contentDescription = "Foto de perfil por defecto",
+                            modifier = Modifier.size(120.dp),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Row {
+                        // Botón para seleccionar/cambiar la foto
+                        Button(
+                            onClick = { imagePickerLauncher.launch("image/*") },
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.PhotoLibrary,
+                                contentDescription = null
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(if (uiState.fotoPerfilUri != null) "Cambiar foto" else "Seleccionar foto")
+                        }
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Button(
+                            onClick = { onNavigateToCamera() },
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.PhotoCamera,
+                                contentDescription = null
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text("Tomar foto")
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
 
                 // Campo: Nombre completo
                 OutlinedTextField(
@@ -358,6 +438,8 @@ fun RegistroScreen(
 fun RegistroScreenPreview() {
     RegistroScreen(
         onNavigateBack = {},
-        onNavigateToLogin = {}
+        onNavigateToLogin = {},
+        onNavigateToCamera = {},
+        photoUri = null
     )
 }

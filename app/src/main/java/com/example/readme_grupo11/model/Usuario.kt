@@ -8,6 +8,7 @@ data class UsuarioUiState(
     val confirmarContrasena: String = "",
     val telefono: String = "",
     val generosFavoritos: List<GeneroLiterario> = emptyList(),
+    val fotoPerfilUri: String? = null
 )
 
 // Errores de cada campo de registro

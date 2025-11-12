@@ -1,5 +1,6 @@
 package com.example.readme_grupo11.viewmodel
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -66,6 +67,10 @@ class RegistroViewModel : ViewModel() {
         }
         _uiState.value = _uiState.value.copy(generosFavoritos = generosActuales)
         validarGeneros(generosActuales)
+    }
+
+    fun actualizarFotoPerfilUri(uri: Uri?) {
+        _uiState.value = _uiState.value.copy(fotoPerfilUri = uri.toString())
     }
 
     // Funcion para las validaciones del nombre

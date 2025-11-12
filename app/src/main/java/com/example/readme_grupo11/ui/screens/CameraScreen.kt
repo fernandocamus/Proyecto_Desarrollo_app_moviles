@@ -33,7 +33,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.readme_grupo11.navigation.CameraController
 
 @Composable
-fun CameraScreen() {
+fun CameraScreen(onNavigateBack: (Uri?) -> Unit) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val controller = remember { CameraController() }
@@ -98,6 +98,7 @@ fun CameraScreen() {
             onClick = {
                 controller.takePhoto(context, imageCapture) { uri ->
                     photoUri = uri
+                    onNavigateBack(uri)
                 }
             },
             modifier = Modifier

@@ -34,8 +34,7 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     //Inicializacion de la navegacion de la aplicacion
-                    //AppNavigation()
-                    CameraScreen()
+                    AppNavigation()
                 }
             }
         }
