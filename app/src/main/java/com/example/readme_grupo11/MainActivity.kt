@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.example.readme_grupo11.ui.screens.CameraScreen
 import com.example.readme_grupo11.navigation.AppNavigation
 import com.example.readme_grupo11.ui.theme.README_Grupo11Theme
 
@@ -33,7 +34,8 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     //Inicializacion de la navegacion de la aplicacion
-                    AppNavigation()
+                    //AppNavigation()
+                    CameraScreen()
                 }
             }
         }

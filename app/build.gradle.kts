@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.example.readme_grupo11"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.readme_grupo11"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -50,6 +50,15 @@ android {
 }
 
 dependencies {
+
+    //camerax
+    implementation("androidx.camera:camera-core:1.5.1")
+    implementation("androidx.camera:camera-camera2:1.5.1")
+    implementation("androidx.camera:camera-lifecycle:1.5.1")
+    implementation("androidx.camera:camera-view:1.5.1")
+
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.4")
+    implementation("io.coil-kt:coil-compose:2.7.0")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
