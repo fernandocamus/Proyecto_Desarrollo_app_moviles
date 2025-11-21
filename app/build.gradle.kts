@@ -57,6 +57,11 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.5.1")
     implementation("androidx.camera:camera-view:1.5.1")
 
+    // Retrofit principal
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    // Conversor para JSON (Gson es muy común)
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.9.4")
     implementation("io.coil-kt:coil-compose:2.7.0")
 

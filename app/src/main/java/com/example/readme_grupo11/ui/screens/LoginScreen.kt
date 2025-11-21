@@ -31,6 +31,7 @@ fun LoginScreen(
     // ver los estados del LoginViewModel
     val uiState by viewModel.uiState.collectAsState()
     val errores by viewModel.errores.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
 
     // Estado para ver o esconder la contraseña
     var passwordVisible by remember { mutableStateOf(false) }
@@ -132,6 +133,7 @@ fun LoginScreen(
                         keyboardType = KeyboardType.Email
                     ),
                     modifier = Modifier.fillMaxWidth(),
+                    enabled = !isLoading
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -174,6 +176,7 @@ fun LoginScreen(
                         keyboardType = KeyboardType.Password
                     ),
                     modifier = Modifier.fillMaxWidth(),
+                    enabled = !isLoading
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
@@ -186,6 +189,7 @@ fun LoginScreen(
                 ) {
                     TextButton(
                         onClick = onNavigateToRecuperacion,
+                        enabled = !isLoading
                     ) {
                         Text("¿Olvidaste tu contraseña?")
                     }
@@ -204,11 +208,19 @@ fun LoginScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp),
+                    enabled = !isLoading
                 ) {
-                    Text(
-                        text = "Iniciar Sesión",
-                        style = MaterialTheme.typography.titleMedium
-                    )
+                    if (isLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(24.dp),
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    } else {
+                        Text(
+                            text = "Iniciar Sesión",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -238,6 +250,7 @@ fun LoginScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp),
+                    enabled = !isLoading
                 ) {
                     Icon(
                         imageVector = Icons.Default.PersonAdd,

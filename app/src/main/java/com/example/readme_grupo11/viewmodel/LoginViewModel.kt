@@ -1,17 +1,20 @@
 package com.example.readme_grupo11.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.readme_grupo11.model.LoginErrores
 import com.example.readme_grupo11.model.LoginUiState
+import com.example.readme_grupo11.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 // ViewModel para la logica de la pantalla de login
 class LoginViewModel : ViewModel() {
+
+    private val userRepository = UserRepository()
 
     // Estado del formulario del login
     private val _uiState = MutableStateFlow(LoginUiState())
@@ -23,32 +26,8 @@ class LoginViewModel : ViewModel() {
     // Estado de lectura de los errores
     val errores: StateFlow<LoginErrores> = _errores.asStateFlow()
 
-    // Simulacion de base de datos para las credenciales d elos usuarios
-    companion object {
-        val usuariosGuardados = mutableMapOf(
-            "alumno@duoc.cl" to "Password123@",
-            "profesor@duoc.cl" to "Clave2025#"
-        )
-
-        // Funcion para mostrar los usuarios en el logcat
-        fun mostrarUsuarios() {
-            Log.d("ZONALIBROS", "===========================================")
-            Log.d("ZONALIBROS", "📋 USUARIOS GUARDADOS:")
-            Log.d("ZONALIBROS", "===========================================")
-            usuariosGuardados.forEach { (email, password) ->
-                Log.d("ZONALIBROS", "Email: $email")
-                Log.d("ZONALIBROS", "Pass:  $password")
-                Log.d("ZONALIBROS", "-------------------------------------------")
-            }
-            Log.d("ZONALIBROS", "Total: ${usuariosGuardados.size} usuarios")
-            Log.d("ZONALIBROS", "===========================================")
-        }
-    }
-
-    // Inicializacion para mostrar los usuarios en el logcat
-    init {
-        mostrarUsuarios()
-    }
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     // Funcion para actualizar el correo electronico ingresado y validarlo
     fun actualizarCorreo(correo: String) {
@@ -96,23 +75,18 @@ class LoginViewModel : ViewModel() {
 
     // Funcion para iniciar sesion con las credenciales
     fun iniciarSesion(onSuccess: () -> Unit) {
-        // Se limpian los errores de intentos anteriores
         if (validarFormulario()) {
             viewModelScope.launch {
-                _errores.value = _errores.value.copy(errorGeneral = null)
+                _isLoading.value = true
+                _errores.value = LoginErrores() // Limpiar errores previos
 
-                val state = _uiState.value
-
-                // Se busca la contraseña asociada al correo ingresado
-                val contrasenaCorrecta = usuariosGuardados[state.correo]
-
-                // Se verifica si el usuario existe y si la contraseña es correcta
-                if (contrasenaCorrecta != null && contrasenaCorrecta == state.contrasena) {
+                try {
+                    userRepository.login(_uiState.value.correo, _uiState.value.contrasena)
                     onSuccess()
-                } else {
-                    _errores.value = _errores.value.copy(
-                        errorGeneral = "Credenciales incorrectas. Verifica tu correo y contraseña."
-                    )
+                } catch (e: IOException) {
+                    _errores.value = _errores.value.copy(errorGeneral = e.message)
+                } finally {
+                    _isLoading.value = false
                 }
             }
         }
@@ -122,5 +96,4 @@ class LoginViewModel : ViewModel() {
     fun limpiarErrorGeneral() {
         _errores.value = _errores.value.copy(errorGeneral = null)
     }
-
 }

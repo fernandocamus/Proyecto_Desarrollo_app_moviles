@@ -43,6 +43,7 @@ fun RegistroScreen(
     val uiState by viewModel.uiState.collectAsState()
     val errores by viewModel.errores.collectAsState()
     val registroExitoso by viewModel.registroExitoso.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
 
     LaunchedEffect(photoUri) {
         photoUri?.let {
@@ -110,6 +111,34 @@ fun RegistroScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
+                // Card para mostrar el error general de la API
+                if (errores.errorGeneral != null) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.errorContainer
+                        )
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Error,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.error
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = errores.errorGeneral!!,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onErrorContainer
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
                 // Sección para la foto de perfil
                 Column(
                     modifier = Modifier.fillMaxWidth(),
@@ -141,6 +170,7 @@ fun RegistroScreen(
                         // Botón para seleccionar/cambiar la foto
                         Button(
                             onClick = { imagePickerLauncher.launch("image/*") },
+                            enabled = !isLoading
                         ) {
                             Icon(
                                 imageVector = Icons.Default.PhotoLibrary,
@@ -152,6 +182,7 @@ fun RegistroScreen(
                         Spacer(modifier = Modifier.width(8.dp))
                         Button(
                             onClick = { onNavigateToCamera() },
+                            enabled = !isLoading
                         ) {
                             Icon(
                                 imageVector = Icons.Default.PhotoCamera,
@@ -182,6 +213,7 @@ fun RegistroScreen(
                         }
                     },
                     modifier = Modifier.fillMaxWidth(),
+                    enabled = !isLoading
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -209,6 +241,7 @@ fun RegistroScreen(
                         keyboardType = KeyboardType.Email
                     ),
                     modifier = Modifier.fillMaxWidth(),
+                    enabled = !isLoading
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -254,6 +287,7 @@ fun RegistroScreen(
                         keyboardType = KeyboardType.Password
                     ),
                     modifier = Modifier.fillMaxWidth(),
+                    enabled = !isLoading
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -294,6 +328,7 @@ fun RegistroScreen(
                         keyboardType = KeyboardType.Password
                     ),
                     modifier = Modifier.fillMaxWidth(),
+                    enabled = !isLoading
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -318,6 +353,7 @@ fun RegistroScreen(
                         keyboardType = KeyboardType.Phone
                     ),
                     modifier = Modifier.fillMaxWidth(),
+                    enabled = !isLoading
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -352,6 +388,7 @@ fun RegistroScreen(
                         Checkbox(
                             checked = uiState.generosFavoritos.contains(genero),
                             onCheckedChange = { viewModel.toggleGenero(genero) },
+                            enabled = !isLoading
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
@@ -368,24 +405,31 @@ fun RegistroScreen(
                 // Boton para crear cuenta
                 Button(
                     onClick = {
-                        // Cambiar ya que debe dirigir al login (aun no esta creado)
+                        viewModel.limpiarErrorGeneral()
                         viewModel.registrarUsuario(onNavigateToLogin)
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp),
+                    enabled = !isLoading
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.PersonAdd,
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "Crear Cuenta",
-                        style = MaterialTheme.typography.titleMedium
-                    )
-
+                    if (isLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(24.dp),
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    } else {
+                        Icon(
+                            imageVector = Icons.Default.PersonAdd,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "Crear Cuenta",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -422,6 +466,7 @@ fun RegistroScreen(
                 TextButton(
                     onClick = onNavigateBack,
                     modifier = Modifier.fillMaxWidth(),
+                    enabled = !isLoading
                 ) {
                     Text("¿Ya tienes cuenta? Inicia sesión")
                 }

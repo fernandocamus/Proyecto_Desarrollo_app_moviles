@@ -19,6 +19,7 @@ data class UsuarioErrores(
     val confirmarContrasenaError: String? = null,
     val telefonoError: String? = null,
     val generosError: String? = null,
+    val errorGeneral: String? = null // <- Error para la respuesta de la API
 )
 
 // Generos literarios disponibles
@@ -51,9 +52,11 @@ data class RecuperacionUiState(
 
 // Clase para guardar los datos de usuario en la base de datos
 data class UsuarioRegistrado(
+    val id: Int? = null,
     val nombreCompleto: String,
     val correo: String,
     val contrasena: String,
-    val telefono: String,
-    val generosFavoritos: List<GeneroLiterario>
+    val telefono: String?,
+    val generosFavoritos: List<String>,
+    val fotoPerfil: String? = null
 )
