@@ -68,8 +68,6 @@ fun CrearLibroScreen(
     var errorGeneral by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
 
-    // --- FIN: ESTADOS LOCALES DE LA VISTA ---
-
     // Scaffold proporciona la estructura básica de la pantalla.
     Scaffold(
         topBar = {
@@ -124,7 +122,7 @@ fun CrearLibroScreen(
                     textAlign = TextAlign.Center
                 )
 
-                // --- CAMPO: TÍTULO ---
+                //Titulo
                 OutlinedTextField(
                     value = titulo,
                     // Ahora actualizamos directamente la variable local.
@@ -146,7 +144,7 @@ fun CrearLibroScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // --- CAMPO: AUTOR ---
+                // Autor
                 OutlinedTextField(
                     value = autor,
                     onValueChange = { autor = it },
@@ -167,7 +165,7 @@ fun CrearLibroScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // --- CAMPOS EN FILA: IDIOMA Y PÁGINAS ---
+                // Idioma y paginas
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     OutlinedTextField(
                         value = idioma,
@@ -204,7 +202,7 @@ fun CrearLibroScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // --- SELECTOR DE GÉNEROS CON CHECKBOXES ---
+                // Generos
                 Text("Géneros", style = MaterialTheme.typography.titleMedium)
                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -249,7 +247,7 @@ fun CrearLibroScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // --- BOTÓN DE REGISTRO Y MENSAJES ---
+                // Registro
                 if (errorGeneral != null) {
                     Text(
                         text = errorGeneral!!,
@@ -262,7 +260,7 @@ fun CrearLibroScreen(
                 }
 
                 Button(
-                    onClick = { /* Lógica de prueba aquí, ej: mostrar errores o un log */ },
+                    onClick = { /* Lógica de prueba aquí ej: mostrar errores o un log */ },
                     enabled = !isLoading,
                     modifier = Modifier
                         .fillMaxWidth()
