@@ -7,4 +7,5 @@ sealed class AppRoutes(val route: String) {
     object Recuperacion : AppRoutes("recuperacion")
     object Home : AppRoutes("home")
     object Camera : AppRoutes("camera")
+    object Libros : AppRoutes("libros")
 }

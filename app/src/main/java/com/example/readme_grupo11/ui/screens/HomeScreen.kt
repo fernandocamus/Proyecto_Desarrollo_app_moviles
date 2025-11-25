@@ -17,7 +17,8 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    onNavigateToLogin: () -> Unit
+    onNavigateToLogin: () -> Unit,
+    onNavigateToLibros: () -> Unit
 ) {
     //Estado para controlar el menu desplegable
     var showMenu by remember { mutableStateOf(false) }
@@ -69,7 +70,7 @@ fun HomeScreen(
                 )
             )
         },
-        // Barra de navegacion inferior (solo visual, sin funcionamiento real)
+        // Barra de navegacion inferior (funcionan dos botones, inicio y libros)
         bottomBar = {
             // Opcion: Inicio
             NavigationBar(
@@ -80,7 +81,7 @@ fun HomeScreen(
                     icon = { Icon(Icons.Default.Home, contentDescription = null) },
                     label = { Text("Inicio") },
                     selected = true,
-                    onClick = { },
+                    onClick = { /* Ya estamos aquí */ },
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = MaterialTheme.colorScheme.primary,
                         selectedTextColor = MaterialTheme.colorScheme.onPrimary,
@@ -89,12 +90,12 @@ fun HomeScreen(
                         indicatorColor = MaterialTheme.colorScheme.onPrimary
                     )
                 )
-                // Opcion: Buscar
+                // Opcion: Mis Libros (Navega a LibrosScreen)
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Search, contentDescription = null) },
-                    label = { Text("Buscar") },
+                    icon = { Icon(Icons.Default.LibraryBooks, contentDescription = null) },
+                    label = { Text("Mis Libros") },
                     selected = false,
-                    onClick = { },
+                    onClick = { onNavigateToLibros() }, // Navega a la pantalla de libros
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = MaterialTheme.colorScheme.primary,
                         selectedTextColor = MaterialTheme.colorScheme.onPrimary,
@@ -238,7 +239,8 @@ fun HomeScreen(
 fun HomeScreenDarkPreview() {
     MaterialTheme {
         HomeScreen(
-            onNavigateToLogin = {}
+            onNavigateToLogin = {},
+            onNavigateToLibros = {}
         )
     }
 }

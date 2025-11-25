@@ -197,7 +197,7 @@ fun LoginScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Boton para iniciar sesion
+                // Boton para iniciar sesion con loading
                 Button(
                     onClick = {
                         // Limpia errores
@@ -211,10 +211,22 @@ fun LoginScreen(
                     enabled = !isLoading
                 ) {
                     if (isLoading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(24.dp),
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
+                        // Mostrar CircularProgressIndicator mientras carga
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp),
+                                color = MaterialTheme.colorScheme.onPrimary,
+                                strokeWidth = 3.dp
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(
+                                text = "Iniciando sesión...",
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                        }
                     } else {
                         Text(
                             text = "Iniciar Sesión",

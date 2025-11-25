@@ -11,6 +11,7 @@ import com.example.readme_grupo11.ui.screens.HomeScreen
 import com.example.readme_grupo11.ui.screens.RegistroScreen
 import com.example.readme_grupo11.ui.screens.LoginScreen
 import com.example.readme_grupo11.ui.screens.RecuperacionScreen
+import com.example.readme_grupo11.ui.screens.LibrosScreen
 
 // Funcion principal para la navegacion en la aplicacion
 @Composable
@@ -73,6 +74,10 @@ fun AppNavigation() {
                             inclusive = true
                         }
                     }
+                },
+                onNavigateToLibros = {
+                    // Navegar a la pantalla de libros
+                    navController.navigate(AppRoutes.Libros.route)
                 }
             )
         }
@@ -92,6 +97,24 @@ fun AppNavigation() {
                 navController.previousBackStackEntry?.savedStateHandle?.set("photo_uri", uri.toString())
                 navController.popBackStack()
             })
+        }
+
+        // Pantalla Libros (CRUD)
+        composable(route = AppRoutes.Libros.route) {
+            LibrosScreen(
+                // Cerrar sesion y volver a login
+                onNavigateToLogin = {
+                    navController.navigate(AppRoutes.Login.route) {
+                        popUpTo(0) { inclusive = true}
+                    }
+                },
+                onNavigateToHome = {
+                    // Volver al Home
+                    navController.navigate(AppRoutes.Home.route) {
+                        popUpTo(AppRoutes.Home.route) { inclusive = true }
+                    }
+                }
+            )
         }
     }
 }

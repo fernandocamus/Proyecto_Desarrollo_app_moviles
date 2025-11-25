@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.io.IOException
+import kotlinx.coroutines.delay
 
 // ViewModel para la logica de la pantalla de login
 class LoginViewModel : ViewModel() {
@@ -81,6 +82,7 @@ class LoginViewModel : ViewModel() {
                 _errores.value = LoginErrores() // Limpiar errores previos
 
                 try {
+                    delay(2000)
                     userRepository.login(_uiState.value.correo, _uiState.value.contrasena)
                     onSuccess()
                 } catch (e: IOException) {
