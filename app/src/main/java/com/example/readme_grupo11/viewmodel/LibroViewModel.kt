@@ -113,7 +113,7 @@ class LibroViewModel : ViewModel() {
                 when {
                     paginasNum == null -> "Número inválido"
                     paginasNum < 1 -> "Debe tener al menos 1 página"
-                    paginasNum > 10000 -> "No puede tener 10,000 o más páginas"
+                    paginasNum >= 10000 -> "No puede tener 10,000 o más páginas"
                     else -> null
                 }
             }
